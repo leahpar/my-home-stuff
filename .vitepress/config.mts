@@ -23,8 +23,8 @@ export default defineConfig({
         text: 'Système',
         items: [
           { text: 'Authelia',            link: '/docker_authelia' },
-          { text: 'Nginx proxy manager', link: '/docker_nginx_proxy_manager' },
-          { text: 'Docker proxy',        link: '/docker_docker_proxy' },
+          { text: 'Nginx Proxy Manager', link: '/docker_nginx_proxy_manager' },
+          { text: 'Docker Proxy',        link: '/docker_docker_proxy' },
         ]
       },
       {
@@ -32,6 +32,15 @@ export default defineConfig({
         items: [
           { text: 'PiHole',              link: '/docker_pihole' },
           { text: 'Wireguard',           link: '/docker_wireguard' },
+        ]
+      },
+      {
+        text: 'Services',
+        items: [
+          { text: 'Redis',               link: '/docker_redis' },
+          { text: 'Mosquitto',           link: '/docker_mosquitto' },
+          { text: 'RabbitMQ',            link: '/docker_rabbitmq' },
+          { text: 'Postgres',            link: '/docker_postgres' },
         ]
       },
       {
@@ -57,7 +66,14 @@ export default defineConfig({
           { text: 'Bazarr',               link: '/docker_bazarr' },
           { text: 'Jellyfin',             link: '/docker_jellyfin' },
         ]
-      }
+      },
+      {
+        text: 'Divers',
+        items: [
+          { text: 'Dawarich',            link: '/docker_dawarich' },
+          { text: 'Mealie',              link: '/docker_mealie' },
+        ]
+      },
     ],
 
     socialLinks: [

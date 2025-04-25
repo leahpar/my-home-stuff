@@ -1,5 +1,7 @@
 # Authelia
 
+> Dépend de [NPM](docker_nginx_proxy_manager.md) et [redis](docker_redis.md)
+
 ```bash
 docker run -d \
     --name authelia \
