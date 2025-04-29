@@ -1,6 +1,6 @@
-# Authelia
+# Nginx Proxy Manager
 
-> Dépendances : Redis
+> Dépend de [Redis](docker_redis.md)
 
 ```bash
 docker run -d \
