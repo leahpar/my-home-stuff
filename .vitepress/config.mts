@@ -54,6 +54,8 @@ export default defineConfig({
         text: 'Domotique',
         items: [
           { text: 'Home Assistant',      link: '/docker_homeassistant' },
+          { text: 'Zigbee2MQTT',         link: '/docker_zigbee2mqtt' },
+          { text: 'Matter',              link: '/docker_matter' },
         ]
       },
       {
@@ -77,7 +79,7 @@ export default defineConfig({
     ],
 
     socialLinks: [
-      { icon: 'github', link: 'https://github.com/leahpar' }
+      { icon: 'github', link: 'https://github.com/leahpar/my-home-stuff' },
     ]
   }
 })
