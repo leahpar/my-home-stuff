@@ -40,7 +40,7 @@ export default defineConfig({
           { text: 'Redis',               link: '/docker_redis' },
           { text: 'Mosquitto',           link: '/docker_mosquitto' },
           { text: 'RabbitMQ',            link: '/docker_rabbitmq' },
-          { text: 'Postgres',            link: '/docker_postgres' },
+          { text: 'PostgreSQL',          link: '/docker_postgresql' },
         ]
       },
       {
