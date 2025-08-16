@@ -17,3 +17,6 @@ sudo docker run -d \
 ```
 
 > Voir [Authelia](docker_authelia.md) pour la gestion de l'authentification
+
+Soucis de io permanent de `s6-supervise` :
+> https://github.com/NginxProxyManager/nginx-proxy-manager/issues/2741
