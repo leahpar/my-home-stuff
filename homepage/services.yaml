@@ -1,0 +1,215 @@
+---
+# For configuration options and examples, please see:
+# https://gethomepage.dev/configs/services/
+
+# icons : https://github.com/homarr-labs/dashboard-icons/blob/main/ICONS.md
+
+- Media:
+
+      - Sonarr:
+            icon: sonarr.svg
+            description: "Gestionnaire de Séries"
+            href: http://dooku.local:8989
+            server: docker-dooku
+            container: sonarr
+#            widget:
+#                type: sonarr
+#                url: http://dooku.local:8989
+#                key: be15c713ee0845a780da8ec6fe29df66
+#                fields: ['series']
+
+      - Radarr:
+            icon: radarr.svg
+            description: "Gestionnaire de Films"
+            href: http://dooku.local:7878
+            server: docker-dooku
+            container: radarr
+#            widget:
+#                type: radarr
+#                url: http://dooku.local:7878
+#                key: 81cd110720c54ed397c4072bcca33012
+#                fields: ['movies']
+
+      - Transmission:
+            icon: transmission.svg
+            description: "Client Torrent"
+            href: http://dooku.local:9091
+            server: docker-dooku
+            container: transmission
+#            widget:
+#                type: transmission
+#                url: http://dooku.local:9091
+#                username:
+#                password:
+#                fields: ['download', 'upload']
+
+      - Jackett:
+            icon: jackett.svg
+            description: "Moteur de recherche Torrent"
+            href: http://dooku.local:9117
+            server: docker-dooku
+            container: jackett
+#            widget:
+#                type: jackett
+#                url: http://dooku.local:9117
+
+      - Bazarr:
+            icon: bazarr.svg
+            description: "Gestionnaire de Sous-titres"
+            href: http://dooku.local:6767
+            server: docker-dooku
+            container: bazarr
+#            widget:
+#                type: bazarr
+#                url: http://dooku.local:6767
+#                key: 3a2f0d10b3ece4ca0391eab3ab0123d0
+
+      - Jellyfin:
+            icon: jellyfin.svg
+            description: "Serveur Multimédia"
+            href: http://dooku.local:8086
+            server: docker-dooku
+            container: jellyfin
+#            widget:
+#                type: jellyfin
+#                url: http://dooku.local:8096
+#                key: 92d03ebd6434473597ffc93ea3f1a0c8
+#                enableNowPlaying: false
+#                enableBlocks: true
+#                fields: ['movies', 'series']
+
+- Reseau:
+
+      - OpenWRT:
+            icon: openwrt.svg
+            description: "Routeur"
+            href: http://10.0.0.1
+#            widget:
+#                type: openwrt
+#                url: http://10.0.0.1
+#                # https://gethomepage.dev/widgets/services/openwrt/#authorization
+#                username: homepage
+#                password: Riewaxahtaa3
+
+      - NginxProxyManager:
+            icon: nginx-proxy-manager.svg
+            description: "Reverse Proxy"
+            href: http://grievous.local:81
+            server: docker-grievous
+            container: nginx-proxy-manager
+#            widget:
+#                type: npm
+#                url: http://grievous.local:81
+#                username: leahpar@gmail.com
+#                password: jNEHDZ6GRRkb86Q
+
+      - PiHole:
+            icon: pi-hole.svg
+            description: "Serveur DNS & Bloqueur de Pubs"
+            href: http://grievous.local:8082
+            server: docker-grievous
+            container: pihole
+#            widget:
+#                type: pihole
+#                url: http://grievous.local:8082
+#                verion: 5
+#                key: 7dcd4f642beebd47529a11ee42d66944d6ef58d115826806f1923008e68a06c6
+
+      - NetAlertX:
+            icon: netalertx.svg
+            description: "Surveillance Réseau"
+            href: http://dooku.local:20211
+            server: docker-dooku
+            container: netalert
+#            widget:
+#                type: netalertx
+#                url: http://dooku.local:20211
+#                key: t_dMtaYtu3braXacRflEFc
+#                fields: ['total', 'connected']
+
+      -   Wireguard:
+            icon: wireguard.svg
+            description: "VPN"
+            server: docker-grievous
+            container: wireguard
+
+      - UptimeKuma:
+            icon: uptime-kuma.svg
+            description: "Surveillance de Services"
+            href: http://dooku.local:3001
+            server: docker-dooku
+            container: uptime-kuma
+
+      - Authelia:
+            icon: authelia.svg
+            description: "Authentification"
+            href: https://auth.appart.42p.ovh/
+            server: docker-grievous
+            container: authelia
+
+- Domotique:
+
+      - HomeAssistant:
+            icon: home-assistant.svg
+            description: "Serveur Domotique"
+            href: https://hass.appart.42p.ovh/
+            server: docker-grievous
+            container: homeassistant
+            # https://gethomepage.dev/widgets/services/homeassistant/
+
+      - Zigbee2mqtt:
+            icon: zigbee2mqtt.svg
+            description: "Passerelle Zigbee"
+            href: http://grievous.local:8081
+            server: docker-grievous
+            container: zigbee2mqtt
+
+      - Mosquitto:
+            icon: mosquitto.svg
+            description: "Broker MQTT"
+            server: docker-grievous
+            container: mosquitto
+
+- Social:
+
+      - Dawarich:
+            icon: dawarich.svg
+            description: "Tracking de location"
+#            href: http://grievous.local:8000
+            server: docker-grievous
+            container: dawarich_app
+
+      - Mealie:
+            icon: mealie.svg
+            description: "Livre de Recettes"
+#            href: http://dooku.local:9925
+            server: docker-dooku
+            container: mealie
+
+- Divers:
+
+      - homepage:
+            icon: homepage.png
+            description: "Dashboard"
+            href: http://grievous.local:3000
+            server: docker-grievous
+            container: homepage
+
+      - n8n:
+            icon: n8n.svg
+            description: "Automatisation"
+            href: http://dooku.local:5678
+            server: docker-dooku
+            container: n8n
+
+      - Redis:
+            icon: redis.svg
+            description: "Utilisé par Authelia"
+            server: docker-grievous
+            container: redis
+
+      - PostgreSQL:
+            icon: postgresql.svg
+            description: "Utilisé par Dawarich et Mealie"
+            server: docker-grievous
+            container: postgres

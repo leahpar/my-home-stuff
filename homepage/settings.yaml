@@ -1,0 +1,33 @@
+---
+# For configuration options and examples, please see:
+# https://gethomepage.dev/configs/settings/
+
+title: My awesome Homepage
+language: fr
+useEqualHeights: true
+statusStyle: "dot"
+headerStyle: boxedWidgets
+
+layout:
+    Hardware:
+        style: row
+        columns: 3
+    Media:
+        style: row
+        columns: 3
+    Reseau:
+        style: row
+        columns: 3
+    Domotique:
+        style: row
+        columns: 3
+    Social:
+        style: row
+        columns: 3
+    Divers:
+        style: row
+        columns: 3
+
+providers:
+    openweathermap: openweathermapapikey
+    weatherapi: weatherapiapikey

@@ -48,6 +48,8 @@ export default defineConfig({
         items: [
           { text: 'Homepage',            link: '/docker_homepage' },
           { text: 'Uptime Kuma',         link: '/docker_uptime_kuma' },
+          { text: 'NetAlertX',           link: '/docker_netAlertX' },
+          { text: 'Glances',             link: '/glances' },
         ]
       },
       {
@@ -70,10 +72,16 @@ export default defineConfig({
         ]
       },
       {
-        text: 'Divers',
+        text: 'Social',
         items: [
           { text: 'Dawarich',            link: '/docker_dawarich' },
           { text: 'Mealie',              link: '/docker_mealie' },
+        ]
+      },
+      {
+        text: 'Divers',
+        items: [
+          { text: 'n8n',                 link: '/docker_n8n' },
         ]
       },
     ],

@@ -23,3 +23,8 @@ sudo chmod o+rw /var/run/docker.sock
 
 cf [Docker proxy](docker_docker_proxy.md)
 
+**Configuration :**
+
+- [Settings](homepage/settings.yaml)
+- [widgets](homepage/widgets.yaml)
+- [Services](homepage/services.yaml)

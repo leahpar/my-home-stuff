@@ -1,0 +1,23 @@
+---
+# For configuration options and examples, please see:
+# https://gethomepage.dev/configs/info-widgets/
+
+- resources:
+      label: Grievous
+      cpu: true
+      memory: true
+      cputemp: true
+
+- datetime:
+      text_size: xl
+      format:
+          timeStyle: short
+
+- glances:
+      label: Dooku
+      url: http://dooku.local:61208
+      version: 4
+      cpu: true
+      mem: true
+      cputemp: true
+      disk: /mnt/dd-2t
