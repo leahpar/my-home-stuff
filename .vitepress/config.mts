@@ -69,6 +69,7 @@ export default defineConfig({
           { text: 'Sonarr',               link: '/docker_sonarr' },
           { text: 'Bazarr',               link: '/docker_bazarr' },
           { text: 'Jellyfin',             link: '/docker_jellyfin' },
+          { text: 'Jellyseerr',           link: '/docker_jellyseerr' },
         ]
       },
       {

@@ -10,3 +10,4 @@ docker run -d \
     --network=host \
     ghcr.io/home-assistant/raspberrypi4-homeassistant:stable
 ```
+

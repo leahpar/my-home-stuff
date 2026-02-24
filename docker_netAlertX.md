@@ -1,7 +1,7 @@
 # NetAlertX
 
 ```bash
-docker run -d --rm \
+docker run -d \
   --network=host \
   --name=netalert \
   --restart=unless-stopped \
