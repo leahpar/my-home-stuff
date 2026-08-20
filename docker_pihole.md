@@ -3,7 +3,24 @@
 https://github.com/pi-hole/docker-pi-hole/
 
 ```bash
-IP=`ip route get 1 | head -1 | cut -d' ' -f7`
+docker run -d \
+    --name pihole \
+    --restart=unless-stopped \
+    --shm-size=128m \
+    -p 53:53/tcp -p 53:53/udp \
+    -p 8082:80 \
+    -e TZ=Europe/Paris \
+    -v "/home/pi/pihole/etc-pihole/:/etc/pihole/" \
+    -v "/home/pi/pihole/etc-dnsmasq.d/99-appart.conf:/etc/dnsmasq.d/99-appart.conf" \
+    -e FTLCONF_webserver_api_password="siSh0iek3sei" \
+    -e FTLCONF_dns_queryLogging="true" \
+    pihole/pihole:latest
+```
+
+Old (v5)
+
+```bash
+SERVER=`ip route get 1 | head -1 | cut -d' ' -f7`
 docker run -d \
     --name pihole \
     --restart=unless-stopped \

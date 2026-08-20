@@ -12,7 +12,7 @@ docker run -d \
     -e PGID=1000 \
     -e TZ=Europe/Paris \
     --restart unless-stopped \
-    louislam/uptime-kuma:latest
+    louislam/uptime-kuma:2
 ```
 
 **Pour le monitoring des containers locaux :**
