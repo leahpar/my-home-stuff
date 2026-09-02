@@ -140,12 +140,19 @@
             server: docker-dooku
             container: uptime-kuma
 
-      - Authelia:
-            icon: authelia.svg
+      - Tinyauth:
+            icon: tinyauth.svg
             description: "Authentification"
             href: https://auth.appart.42p.ovh/
             server: docker-grievous
-            container: authelia
+            container: tinyauth
+
+      - PocketID:
+            icon: pocket-id.svg
+            description: "SSO / Passkeys"
+            href: https://pocketid.appart.42p.ovh/
+            server: docker-grievous
+            container: pocket-id
 
 - Domotique:
 
@@ -204,7 +211,7 @@
 
       - Redis:
             icon: redis.svg
-            description: "Utilisé par Authelia"
+            description: "Cache / sessions"
             server: docker-grievous
             container: redis
 

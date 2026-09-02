@@ -22,7 +22,8 @@ export default defineConfig({
       {
         text: 'Système',
         items: [
-          { text: 'Authelia',            link: '/docker_authelia' },
+          { text: 'Tinyauth',            link: '/docker_tinyauth' },
+          { text: 'PocketID',            link: '/docker_pocketid' },
           { text: 'Nginx Proxy Manager', link: '/docker_nginx_proxy_manager' },
           { text: 'Docker Proxy',        link: '/docker_docker_proxy' },
         ]

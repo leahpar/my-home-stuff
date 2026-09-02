@@ -28,7 +28,7 @@ docker run -d \
 ## Remarques
 
 - Ajoute de `--add-host=host.docker.internal:host-gateway` pour pouvoir utiliser `host.docker.internal` sous linux.
-- TODO: gestion de l'authentification avec [Authelia](docker_authelia.md) ? Voir [doc authelia](https://www.authelia.com/integration/openid-connect/mealie/)
+- TODO: gestion de l'authentification avec [PocketID](docker_pocketid.md) ? Mealie gère l'OIDC nativement (client OIDC direct, pas besoin de passer par Tinyauth). Voir [doc mealie](https://docs.mealie.io/documentation/getting-started/authentication/oidc-v2/)
 
 ## Configuration postgresql
 

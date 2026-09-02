@@ -2,3 +2,4 @@
 .vitepress/cache
 .idea
 node_modules
+/toto.http

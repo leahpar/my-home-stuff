@@ -1,5 +1,8 @@
 # Authelia
 
+> ⚠️ **Déprécié** — remplacé par [Tinyauth](docker_tinyauth.md) + [PocketID](docker_pocketid.md).
+> Page conservée pour référence.
+
 > Dépend de [redis](docker_redis.md)
 
 ## Installation
