@@ -1,9 +1,9 @@
 # Authelia
 
-> ⚠️ **Déprécié** — remplacé par [Tinyauth](docker_tinyauth.md) + [PocketID](docker_pocketid.md).
-> Page conservée pour référence.
-
-> Dépend de [redis](docker_redis.md)
+> ⚠️ **Désinstallé** (2026-09-02) — remplacé par [Tinyauth](docker_tinyauth.md) + [PocketID](docker_pocketid.md).
+> Page conservée pour référence. Le conteneur et son Redis dédié (`/home/pi/redis` sur grievous) ont été supprimés ; `/home/pi/authelia` (config) est conservé au cas où. [docker_redis.md](docker_redis.md) documente désormais une instance Redis différente, mutualisée sur Tarkin pour Immich/Dawarich.
+>
+> Plusieurs hosts NPM référencent encore la config `auth_request /authelia` ci-dessous (`transmission`, `media`, `proxy.appart.42p.ovh`, `auth.appart.42p.ovh`) — tous désactivés ou déjà cassés, non nettoyés pour l'instant.
 
 ## Installation
 

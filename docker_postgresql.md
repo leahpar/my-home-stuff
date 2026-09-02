@@ -15,8 +15,10 @@ docker run -d  \
   -p 5432:5432 \
   -v /home/pi/postgres/data:/var/lib/postgresql/data \
   --restart unless-stopped \
-  postgres:alpine
+  postgres:16-alpine
 ```
+
+> ⚠️ `postgres:alpine` (sans version) pointe désormais vers Postgres 18, qui attend un layout de volume différent (`/var/lib/postgresql` et non `/var/lib/postgresql/data`) et refuse de démarrer avec le montage ci-dessus. Épingler une version < 18 (ex. `16-alpine`).
 
 ## Gestion des utilisateurs
 

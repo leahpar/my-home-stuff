@@ -1,96 +1,166 @@
 # Dawarich
 
-> TODO
+> Hébergé sur Tarkin. Dépend du [Redis mutualisé](docker_redis.md) (index 1).
 
-```dockerfile
+## docker-compose.yml
+
+```yaml
+# full list of environment variables with descriptions can be found in the documentation:
+# https://dawarich.app/docs/self-hosting/environment-variables/
+
+name: dawarich
+
+networks:
+  default:
+  shared:
+    external: true
+    name: shared
+
 services:
   dawarich_db:
-    #image: postgis/postgis:14-3.5-alpine
-    image: ghcr.io/baosystems/postgis:13-3.5-alpine
+    image: imresamu/postgis:17-3.5-alpine # fork ARM64, l'image officielle postgis/postgis n'a pas de build arm64
     shm_size: 1G
     container_name: dawarich_db
     volumes:
-      - /home/pi/dawarich/db:/var/lib/postgresql/data
-      - /home/pi/dawarich/shared:/var/shared
+      - ./db_data:/var/lib/postgresql/data
+      - ./shared:/var/shared
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: password
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-password}
+      POSTGRES_DB: ${POSTGRES_DB:-dawarich_development}
     restart: unless-stopped
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-postgres} -d ${POSTGRES_DB:-dawarich_development}" ]
+      interval: 10s
+      retries: 5
+      start_period: 30s
+      timeout: 10s
 
   dawarich_app:
     image: freikin/dawarich:latest
     container_name: dawarich_app
     volumes:
-      - /home/pi/dawarich/dawarich/public:/var/app/public
-      - /home/pi/dawarich/dawarich/watched:/var/app/tmp/imports/watched
-      - /home/pi/dawarich/dawarich/storage:/var/app/storage
+      - ./public:/var/app/public
+      - ./watched:/var/app/tmp/imports/watched
+      - ./storage:/var/app/storage
+      - ./db_data:/dawarich_db_data
     ports:
-      - 3033:3000
+      - "${DAWARICH_APP_PORT:-3000}:3000"
     stdin_open: true
     tty: true
     entrypoint: web-entrypoint.sh
     command: ['bin/rails', 'server', '-p', '3000', '-b', '::']
     restart: unless-stopped
+    networks:
+      - default
+      - shared
     environment:
-      RAILS_ENV: development
-      REDIS_URL: redis://redis:6379/0
-      DATABASE_HOST: dawarich_db
-      DATABASE_USERNAME: postgres
-      DATABASE_PASSWORD: password
-      DATABASE_NAME: dawarich
-      MIN_MINUTES_SPENT_IN_CITY: 60
-      APPLICATION_HOSTS: localhost
-      TIME_ZONE: Europe/Paris
-      APPLICATION_PROTOCOL: http
-      DISTANCE_UNIT: km
-      PROMETHEUS_EXPORTER_ENABLED: false
-      PROMETHEUS_EXPORTER_HOST: 0.0.0.0
-      PROMETHEUS_EXPORTER_PORT: 9394
-      ENABLE_TELEMETRY: false # More on telemetry: https://dawarich.app/docs/tutorials/telemetry
-      SELF_HOSTED: "true"
+      RAILS_ENV: ${RAILS_ENV:-production}
+      REDIS_URL: ${REDIS_URL:-redis://shared_redis:6379/1}
+      DATABASE_HOST: ${DATABASE_HOST:-dawarich_db}
+      DATABASE_PORT: ${DATABASE_PORT:-5432}
+      DATABASE_USERNAME: ${DATABASE_USERNAME:-postgres}
+      DATABASE_PASSWORD: ${DATABASE_PASSWORD:-password}
+      DATABASE_NAME: ${DATABASE_NAME:-dawarich_development}
+      APPLICATION_HOSTS: ${APPLICATION_HOSTS:-localhost,::1,127.0.0.1}
+      TIME_ZONE: ${TIME_ZONE:-Europe/Paris}
+      APPLICATION_PROTOCOL: ${APPLICATION_PROTOCOL:-http}
+      PROMETHEUS_EXPORTER_ENABLED: ${PROMETHEUS_EXPORTER_ENABLED:-false}
+      SECRET_KEY_BASE: ${SECRET_KEY_BASE:-"CHANGE_ME"}
+      RAILS_LOG_TO_STDOUT: ${RAILS_LOG_TO_STDOUT:-true}
+      SELF_HOSTED: ${SELF_HOSTED:-true}
+      STORE_GEODATA: ${STORE_GEODATA:-true}
+      WEB_CONCURRENCY: ${WEB_CONCURRENCY:-1}
     logging:
       driver: "json-file"
       options:
-        max-size: "100m"
-        max-file: "5"
+        max-size: ${LOG_MAX_SIZE:-100m}
+        max-file: ${LOG_MAX_FILE:-5}
+    healthcheck:
+      test: [ "CMD-SHELL", "wget -qO - http://127.0.0.1:3000/api/v1/health | grep -q '\"status\"\\s*:\\s*\"ok\"'" ]
+      interval: 10s
+      retries: 30
+      start_period: 30s
+      timeout: 10s
+    depends_on:
+      dawarich_db:
+        condition: service_healthy
+        restart: true
+    deploy:
+      resources:
+        limits:
+          cpus: ${APP_CPU_LIMIT:-0.50}
+          memory: ${APP_MEMORY_LIMIT:-4G}
 
   dawarich_sidekiq:
     image: freikin/dawarich:latest
     container_name: dawarich_sidekiq
     volumes:
-      - /home/pi/dawarich/dawarich/public:/var/app/public
-      - /home/pi/dawarich/dawarich/watched:/var/app/tmp/imports/watched
-      - /home/pi/dawarich/dawarich/storage:/var/app/storage
+      - ./public:/var/app/public
+      - ./watched:/var/app/tmp/imports/watched
+      - ./storage:/var/app/storage
     stdin_open: true
     tty: true
     entrypoint: sidekiq-entrypoint.sh
     command: ['sidekiq']
     restart: unless-stopped
+    networks:
+      - default
+      - shared
     environment:
-      RAILS_ENV: development
-      REDIS_URL: redis://dawarich_redis:6379/0
-      DATABASE_HOST: dawarich_db
-      DATABASE_USERNAME: postgres
-      DATABASE_PASSWORD: password
-      DATABASE_NAME: dawarich_development
-      APPLICATION_HOSTS: localhost
-      BACKGROUND_PROCESSING_CONCURRENCY: 10
-      APPLICATION_PROTOCOL: http
-      DISTANCE_UNIT: km
-      PROMETHEUS_EXPORTER_ENABLED: false
-      PROMETHEUS_EXPORTER_HOST: dawarich_app
-      PROMETHEUS_EXPORTER_PORT: 9394
-      ENABLE_TELEMETRY: false # More on telemetry: https://dawarich.app/docs/tutorials/telemetry
-      SELF_HOSTED: "true"
+      RAILS_ENV: ${RAILS_ENV:-production}
+      REDIS_URL: ${REDIS_URL:-redis://shared_redis:6379/1}
+      DATABASE_HOST: ${DATABASE_HOST:-dawarich_db}
+      DATABASE_PORT: ${DATABASE_PORT:-5432}
+      DATABASE_USERNAME: ${DATABASE_USERNAME:-postgres}
+      DATABASE_PASSWORD: ${DATABASE_PASSWORD:-password}
+      DATABASE_NAME: ${DATABASE_NAME:-dawarich_development}
+      APPLICATION_HOSTS: ${APPLICATION_HOSTS:-localhost,::1,127.0.0.1}
+      BACKGROUND_PROCESSING_CONCURRENCY: ${BACKGROUND_PROCESSING_CONCURRENCY:-3}
+      APPLICATION_PROTOCOL: ${APPLICATION_PROTOCOL:-http}
+      PROMETHEUS_EXPORTER_ENABLED: ${PROMETHEUS_EXPORTER_ENABLED:-false}
+      SECRET_KEY_BASE: ${SECRET_KEY_BASE:-"CHANGE_ME"}
+      RAILS_LOG_TO_STDOUT: ${RAILS_LOG_TO_STDOUT:-true}
+      SELF_HOSTED: ${SELF_HOSTED:-true}
+      STORE_GEODATA: ${STORE_GEODATA:-true}
     logging:
       driver: "json-file"
       options:
-        max-size: "100m"
-        max-file: "5"
-    deploy:
-      resources:
-        limits:
-          memory: '1G'
-
-
+        max-size: ${LOG_MAX_SIZE:-100m}
+        max-file: ${LOG_MAX_FILE:-5}
+    healthcheck:
+      test: [ "CMD-SHELL", "pgrep -f sidekiq" ]
+      interval: 10s
+      retries: 30
+      start_period: 30s
+      timeout: 10s
+    depends_on:
+      dawarich_db:
+        condition: service_healthy
+        restart: true
+      dawarich_app:
+        condition: service_healthy
+        restart: true
 ```
+
+## .env
+
+```bash
+POSTGRES_PASSWORD=password
+DAWARICH_APP_PORT=3000
+TIME_ZONE=Europe/Paris
+
+# Redis mutualisé (cf docker_redis.md) - index dédié à Dawarich
+REDIS_URL=redis://shared_redis:6379/1
+
+# Générer une vraie valeur en prod : openssl rand -hex 64
+SECRET_KEY_BASE=...
+```
+
+## Remarques
+
+- **arm64** : l'image officielle `postgis/postgis` n'a pas de build arm64 (Tarkin est un Raspberry Pi). Utiliser le fork `imresamu/postgis` à la place — déjà en commentaire dans le compose officiel Dawarich pour ce cas.
+- Postgres dédié (extension PostGIS), pas de mutualisation possible avec Immich (versions majeures différentes : 17 ici vs 14 pour Immich) ni avec un futur Postgres générique pour Mealie (qui n'a pas besoin de PostGIS).
+- Redis mutualisé avec Immich via `REDIS_URL` (index de base dédié) plutôt que le service `dawarich_redis` bundlé par défaut dans le compose officiel.
+- `SECRET_KEY_BASE` doit être une vraie valeur aléatoire dès qu'il y a des comptes utilisateurs réels (sert au chiffrement Rails des données sensibles en base) — ne pas la changer une fois des comptes créés, ça invaliderait leurs données chiffrées.
+- Pas de reverse proxy configuré pour le moment (accès direct `http://tarkin.local:3000`).
